@@ -17,8 +17,10 @@ Template.Register.events({
     var inputName = $(event.target).find('#inputName').val().trim();
     var inputPassword = $(event.target).find('#inputPassword').val().trim();
     
-    Accounts.createUser({username:inputName, password:inputPassword}, function(error){
-      Router.go('about');
+     Accounts.createUser({username:inputName, password:inputPassword}, function(error){
+      var currentRoute = Router.current();
+        Session.set('errorl', true);
+       currentRoute.render('ErrorLog');
     });
     
   }  

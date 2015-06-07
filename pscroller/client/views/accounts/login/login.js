@@ -28,7 +28,8 @@ Template.Login.events({
     var inputPassword = $(event.target).find('#inputPassword').val().trim();
     
     Meteor.loginWithPassword(inputName, inputPassword, function(error){
-      Router.go('about');
+      //Router.go('about');
+    Router.go('register');
     });
     
   }  

@@ -22,17 +22,43 @@ Router._scrollToHash = function(hash) {
 
 beforeHooks = {
  isLoggedIn: function(){
-if (! Meteor.userId()) {
-    Router.go('login');
-    //this.next();
+
+if (! Meteor.user()  ) {
+    if (Meteor.loggingIn()) {
+      this.render('Loading');
+    } else {
+      this.render('HeadLog',{to: 'Header'}); // Muestra encabezado para Login
+      
+      if (this.lookupTemplate()==='ErroLog')
+       {
+ 
+      this.render('Register');
+       }
+
+       else 
+        {
+      this.render('Login');
+         }
+      this.render('Footer',{to: 'Footer'});
+      Session.set('firstLogin', true);
+    }
   } else {
-    this.next();
+    if(Session.equals('firstLogin', true)) {
+      this.redirect('register');
+      Session.set('firstLogin', false);
+    } else {
+      this.next();
+    }
   }
-}};
 
 
- //Router.onBeforeAction(beforeHooks.isLoggedIn);
- Router.onBeforeAction(beforeHooks.isLoggedIn, {only: ['about']});
+}
+
+};
+
+
+ Router.onBeforeAction(beforeHooks.isLoggedIn);
+ //Router.onBeforeAction(beforeHooks.isLoggedIn, {only: ['about']});
 
 
 
@@ -43,6 +69,7 @@ Router.map(function () {
   this.route('overview', {path: '/'});
 this.route('register', {path: '/accounts/register'});
   this.route('login', {path: '/accounts/login'});
+  this.route('errorlog', {path: '/shared/errorlog'});
   
 });
 
@@ -55,3 +82,36 @@ this.route('register', {path: '/accounts/register'});
 //     this.next();
 //   },
 
+/*if (! Meteor.userId()) {
+  this.render('HeadLog',{to: 'Header'});
+  this.render('Login');
+  this.render('Footer',{to: 'Footer'});
+ 
+  } else {
+    this.next();
+  }
+*/
+
+
+/*var requireLogin = function() {
+  if (! Meteor.user()) {
+    if (Meteor.loggingIn()) {
+      this.render('Loading');
+    } else {
+      this.render('HeadLog',{to: 'Header'});
+      this.render('Login');
+      this.render('Footer',{to: 'Footer'});
+      Session.set('firstLogin', true);
+    }
+  } else {
+    if(Session.equals('firstLogin', true)) {
+      this.redirect('register');
+      Session.set('firstLogin', false);
+    } else {
+      this.next();
+    }
+  }
+}*/
+
+/*A route's name is now accessible at route.getName() (previously it was route.name). 
+In particular, you'll need to write Router.current().route.getName().*/

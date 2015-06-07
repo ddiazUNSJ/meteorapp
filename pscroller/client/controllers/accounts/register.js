@@ -12,7 +12,7 @@ RegisterController = RouteController.extend({
   },
 
   action: function () {
-    this.render();
+    this.render('Register');
     
   },
   

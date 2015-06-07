@@ -15,5 +15,6 @@ LoginController = RouteController.extend({
   },
   onBeforeAction: function() {
      this.next();
+     
   }
 });

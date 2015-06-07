@@ -17,11 +17,17 @@ Template.Register.events({
     var inputName = $(event.target).find('#inputName').val().trim();
     var inputPassword = $(event.target).find('#inputPassword').val().trim();
     
-     Accounts.createUser({username:inputName, password:inputPassword}, function(error){
-      var currentRoute = Router.current();
-        Session.set('errorl', true);
-       currentRoute.render('ErrorLog');
-    });
+     Accounts.createUser({username:inputName, password:inputPassword}, function(err){
+     if (err)
+       console.log(err);
+     else
+       console.log('success!');
+     
+    //   var currentRoute = Router.current();
+    //     Session.set('errorl', true);
+    //    currentRoute.render('Errorlog');
+    //    currentRoute.next();
+     });
     
   }  
 

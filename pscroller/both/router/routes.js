@@ -1,6 +1,3 @@
-/*****************************************************************************/
-/* Client and Server Routes */
-/*****************************************************************************/
 Router.configure({
   layoutTemplate: 'MasterLayout',
   loadingTemplate: 'Loading',
@@ -28,12 +25,12 @@ if (! Meteor.user()  ) {
       this.render('Loading');
     } else {
       this.render('HeadLog',{to: 'Header'}); // Muestra encabezado para Login
-      
-      if (this.lookupTemplate()==='ErroLog')
-       {
- 
-      this.render('Register');
-       }
+      var ver=this.lookupTemplate();
+     
+       if (ver=="Errorlog" || ver=="Register" || ver=="Signout" )
+        {
+         this.render(ver);
+          }
 
        else 
         {
@@ -44,11 +41,12 @@ if (! Meteor.user()  ) {
     }
   } else {
     if(Session.equals('firstLogin', true)) {
-      this.redirect('register');
+      this.redirect('overview');
       Session.set('firstLogin', false);
     } else {
       this.next();
     }
+   // this.next();
   }
 
 
@@ -70,9 +68,15 @@ Router.map(function () {
 this.route('register', {path: '/accounts/register'});
   this.route('login', {path: '/accounts/login'});
   this.route('errorlog', {path: '/shared/errorlog'});
+  this.route('signout', {path: '/signout'});
   
 });
 
+
+// this.route('signout', {
+//     path: '/signout',
+//     onBeforeAction: Meteor.logout
+//   });
 
 // onBeforeAction: function() {
 //     //Session.setDefault('contactFormButtonMessage', 'Send Message');

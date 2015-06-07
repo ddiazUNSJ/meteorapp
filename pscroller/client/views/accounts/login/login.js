@@ -27,9 +27,19 @@ Template.Login.events({
     var inputName = $(event.target).find('#inputName').val().trim();
     var inputPassword = $(event.target).find('#inputPassword').val().trim();
     
-    Meteor.loginWithPassword(inputName, inputPassword, function(error){
+    Meteor.loginWithPassword(inputName, inputPassword, function(err){
       //Router.go('about');
-    Router.go('register');
+   // Router.go('errorlog');
+    if (err)
+       console.log(err);
+     else
+     {
+       console.log('success!');
+   //    Session.set('userOk', true)
+//Router.go('overview') ;
+
+     }
+            
     });
     
   }  
